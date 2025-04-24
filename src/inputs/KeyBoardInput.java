@@ -30,6 +30,7 @@ public class KeyBoardInput implements KeyListener {
                 break;
             case KeyEvent.VK_A:
                 System.out.println("IZQUIERDA");
+                this.gamePanel.updateRunning();
                 this.gamePanel.changeXDelta(-10);
                 break;
             case KeyEvent.VK_S:
@@ -38,6 +39,7 @@ public class KeyBoardInput implements KeyListener {
                 break;
             case KeyEvent.VK_D:
                 System.out.println("DERECHA");
+                this.gamePanel.updateRunning();
                 this.gamePanel.changeXDelta(10);
                 break;
             default:
@@ -48,6 +50,17 @@ public class KeyBoardInput implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_A:
+                this.gamePanel.stop();
+                break;
+            case KeyEvent.VK_D:
+                this.gamePanel.stop();
+                break;
+            default:
+                return;
+
+        }
     }
 
 }
