@@ -3,15 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Juan%20Pablo.DESKTOP-FOF8V6I/Documents/NetBeansProjects/juego-java/src/inputs/MouseInput.java</file>
-            <file>file:/C:/Users/Juan%20Pablo.DESKTOP-FOF8V6I/Documents/NetBeansProjects/juego-java/src/resources/p1_st.png</file>
-            <file>file:/C:/Users/Juan%20Pablo.DESKTOP-FOF8V6I/Documents/NetBeansProjects/juego-java/src/inputs/KeyBoardInput.java</file>
-            <file>file:/C:/Users/Juan%20Pablo.DESKTOP-FOF8V6I/Documents/NetBeansProjects/juego-java/src/main/GameWindow.java</file>
-            <file>file:/C:/Users/Juan%20Pablo.DESKTOP-FOF8V6I/Documents/NetBeansProjects/juego-java/src/main/Main.java</file>
-            <file>file:/C:/Users/Juan%20Pablo.DESKTOP-FOF8V6I/Documents/NetBeansProjects/juego-java/src/entities/Player.java</file>
-            <file>file:/C:/Users/Juan%20Pablo.DESKTOP-FOF8V6I/Documents/NetBeansProjects/juego-java/src/main/GamePanel.java</file>
-            <file>file:/C:/Users/Juan%20Pablo.DESKTOP-FOF8V6I/Documents/NetBeansProjects/juego-java/src/main/Game.java</file>
-            <file>file:/C:/Users/Juan%20Pablo.DESKTOP-FOF8V6I/Documents/NetBeansProjects/juego-java/src/resources/p1_run.png</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/entities/Player.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/entities/Entity.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/main/Main.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/inputs/MouseInput.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/resources/p1_st.png</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/inputs/KeyBoardInput.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/main/Game.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/main/GamePanel.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/resources/p1.png</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/utils/constants.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/main/GameWindow.java</file>
         </group>
     </open-files>
 </project-private>
