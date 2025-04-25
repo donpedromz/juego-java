@@ -30,7 +30,7 @@ public class GamePanel extends JPanel {
     private int xDir = 1, yDir = 1;
     private BufferedImage img, imgRun;
     private BufferedImage[] stAnimation, runAnimation;
-    private int aniTick, aniIndex, runAniTick, runAniIndex, aniSpeed = 30, runAniSpeed = 15;
+    private int aniTick, aniIndex, runAniTick, runAniIndex, aniSpeed = 30, runAniSpeed = 10;
     private boolean isRunning = false;
 
     public void changeXDelta(int value) {
