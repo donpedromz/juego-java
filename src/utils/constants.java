@@ -29,4 +29,18 @@ public class constants {
             }
         }
     }
+    public static class WeaponConstants{
+        public static final int IDDLE = 0;
+        public static final int SHOOTING = 1;
+           public static int GetSpriteAmmount(int weapon_action){
+            switch(weapon_action){
+                case IDDLE:
+                    return 1;
+                case SHOOTING:
+                    return 1;
+                default:
+                    return 1;
+            }
+        }
+    }
 }

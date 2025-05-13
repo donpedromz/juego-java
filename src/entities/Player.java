@@ -5,6 +5,7 @@
 package entities;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,24 +24,18 @@ public class Player extends Entity {
 
     private BufferedImage playerImg;
     private BufferedImage[][] animations;
+    private Arms arms;
     private int currentPlayerAction = PlayerConstants.IDDLE;
     private int aniTick, aniIndex, aniSpeed = 15;
     private boolean moving = false;
-    private int playerDir = -1;
+    private boolean left, up, right, down;
+    private float playerSpeed = 2.0f;
 
     public Player(float x, float y) {
         super(x, y);
         importImg();
         loadAnimations();
-    }
-
-    public void setDirection(int direction) {
-        this.playerDir = direction;
-        this.moving = true;
-    }
-
-    public void setMoving(boolean moving) {
-        this.moving = moving;
+        this.arms = new Arms(0,0);
     }
 
     public void update() {
@@ -50,16 +45,21 @@ public class Player extends Entity {
     }
 
     private void setAnimation() {
+        int startAni = this.currentPlayerAction;
         if (moving) {
             this.currentPlayerAction = PlayerConstants.RUNNING;
         } else {
             this.currentPlayerAction = PlayerConstants.IDDLE;
         }
+        if (startAni != this.currentPlayerAction) {
+            resetAniTick();
+        }
     }
 
     public void render(Graphics g) {
         g.drawImage(animations[currentPlayerAction][aniIndex],
-                (int) this.x, (int) this.y, 128, 128, null);
+                (int) this.x, (int) this.y, 64, 64, null);
+        this.arms.render((Graphics2D) g);
     }
 
     private void loadAnimations() {
@@ -95,23 +95,76 @@ public class Player extends Entity {
     }
 
     private void updatePos() {
-        if (moving) {
-            switch (this.playerDir) {
-                case Directions.LEFT:
-                    this.x -= 5;
-                    break;
-                case Directions.DOWN:
-                    this.y += 10;
-                    break;
-                case Directions.RIGHT:
-                    this.x += 5;
-                    break;
-                case Directions.UP:
-                    this.y -= 10;
-                    break;
-
-            }
+        moving = false;
+        if (left && !right) {
+            this.x -= this.playerSpeed;
+            arms.updatePos(x, y);
+            this.moving = true;
+        } else if (right && !left) {
+            this.x += this.playerSpeed;
+            arms.updatePos(x, y);
+            this.moving = true;
         }
+
+        if (up && !down) {
+            this.y -= this.playerSpeed;
+            arms.updatePos(x, y);
+            this.moving = true;
+        } else if (down && !up) {
+            this.y += this.playerSpeed;
+            arms.updatePos(x, y);
+            this.moving = true;
+        }
+
+    }
+
+    public void setArmsAngle(int x, int y) {
+        this.arms.setAngle(x, y);
+
+    }
+
+    public boolean isLeft() {
+        return left;
+    }
+
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public boolean isRight() {
+        return right;
+    }
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+
+    public boolean isDown() {
+        return down;
+    }
+
+    public void setDown(boolean down) {
+        this.down = down;
+    }
+
+    public void resetDirBooleans() {
+        this.left = false;
+        this.right = false;
+        this.up = false;
+        this.down = false;
+    }
+
+    private void resetAniTick() {
+        this.aniTick = 0;
+        this.aniIndex = 0;
     }
 
 }

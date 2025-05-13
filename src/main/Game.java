@@ -37,6 +37,7 @@ public class Game implements Runnable {
 
     public void update() {
         player.update();
+       
     }
     public void render(Graphics g){
         player.render(g);
@@ -83,6 +84,10 @@ public class Game implements Runnable {
     }
     
     private void initClasses() {
-        this.player = new Player(64, 64);
+        this.player = new Player(0, 0);
+    }
+
+    void windowFocusLost() {
+        this.player.resetDirBooleans();
     }
 }

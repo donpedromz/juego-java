@@ -27,20 +27,23 @@ public class KeyBoardInput implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("Tecla presionada");
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                gamePanel.getGame().getPlayer().setDirection(Directions.UP);
-                break;
             case KeyEvent.VK_A:
-                gamePanel.getGame().getPlayer().setDirection(Directions.LEFT);
-                break;
-            case KeyEvent.VK_S:
-                gamePanel.getGame().getPlayer().setDirection(Directions.DOWN);
+                this.gamePanel.getGame().getPlayer().setLeft(true);
                 break;
             case KeyEvent.VK_D:
-                gamePanel.getGame().getPlayer().setDirection(Directions.RIGHT);
+                this.gamePanel.
+                        getGame().getPlayer().setRight(true);
                 break;
+            case KeyEvent.VK_S:
+                this.gamePanel.
+                        getGame().getPlayer().setDown(true);
+                break;
+            case KeyEvent.VK_W:
+                this.gamePanel.
+                        getGame().getPlayer().setUp(true);
+                break;
+
             default:
                 return;
 
@@ -51,19 +54,19 @@ public class KeyBoardInput implements KeyListener {
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_A:
-                this.gamePanel.getGame().getPlayer().setMoving(false);
+                this.gamePanel.getGame().getPlayer().setLeft(false);
                 break;
             case KeyEvent.VK_D:
                 this.gamePanel.
-                        getGame().getPlayer().setMoving(false);
+                        getGame().getPlayer().setRight(false);
                 break;
             case KeyEvent.VK_S:
                 this.gamePanel.
-                        getGame().getPlayer().setMoving(false);
+                        getGame().getPlayer().setDown(false);
                 break;
             case KeyEvent.VK_W:
                 this.gamePanel.
-                        getGame().getPlayer().setMoving(false);
+                        getGame().getPlayer().setUp(false);
                 break;
 
             default:
