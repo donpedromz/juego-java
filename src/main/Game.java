@@ -4,8 +4,11 @@
  */
 package main;
 
+import entities.Crosshair;
 import entities.Player;
 import java.awt.Graphics;
+import levels.LevelManager;
+import utils.SoundManager;
 
 /**
  *
@@ -18,16 +21,30 @@ public class Game implements Runnable {
     private Thread gameLoopThread;
     private final int FPS_SET = 90;
     private final int UPS_SET = 100;
+    public final static int TILE_DEFAULT_SIZE = 32;
+    public static final float SCALE = 1.0f;
+    public static final int TILES_IN_WIDTH = 40;
+    public static final int TILES_IN_HEIGHT = 20;
+    public static final int TILES_SIZE = (int) (TILE_DEFAULT_SIZE * SCALE);
+    public static final int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
+    public static final int GAME_HEIGTH = TILES_SIZE * TILES_IN_HEIGHT;
     private Player player;
-
+    private LevelManager levelManager;
     public Game() {
-                initClasses();
+        initClasses();
         this.gamePanel = new GamePanel(this);
         this.gameWindow = new GameWindow(gamePanel);
         this.gamePanel.requestFocus();
-
+        loadSounds();
         startGameLoop();
 
+    }
+
+    private void loadSounds() {
+        SoundManager.loadSound("pistol_shot", "/resources/sounds/weapons/pistol/pistol_shot.wav");
+        SoundManager.loadSound("pistol_ricochet", "/resources/sounds/weapons/pistol/pistol_ricochet.wav");
+        SoundManager.loadSound("pistol_empty","/resources/sounds/weapons/pistol/pistol_empty.wav");
+        SoundManager.loadSound("pistol_reload", "/resources/sounds/weapons/pistol/pistol_reload.wav");
     }
 
     private void startGameLoop() {
@@ -37,11 +54,14 @@ public class Game implements Runnable {
 
     public void update() {
         player.update();
-       
+        levelManager.update();
     }
-    public void render(Graphics g){
+
+    public void render(Graphics g) {
         player.render(g);
+        levelManager.draw(g);
     }
+
     @Override
     public void run() {
         double timePerFrame = 1000000000.0 / FPS_SET;
@@ -82,9 +102,10 @@ public class Game implements Runnable {
     public Player getPlayer() {
         return player;
     }
-    
+
     private void initClasses() {
         this.player = new Player(0, 0);
+        this.levelManager = new LevelManager(this);
     }
 
     void windowFocusLost() {

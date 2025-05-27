@@ -37,7 +37,7 @@ public class constants {
                 case IDDLE:
                     return 1;
                 case SHOOTING:
-                    return 1;
+                    return 11;
                 default:
                     return 1;
             }

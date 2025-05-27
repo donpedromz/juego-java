@@ -20,6 +20,7 @@ public class MouseInput implements MouseListener, MouseMotionListener{
     }
     @Override
     public void mouseClicked(MouseEvent e) {
+        this.gamePanel.getGame().getPlayer().shoot();
     }
 
     @Override
@@ -44,7 +45,8 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 
     @Override
     public void mouseMoved(MouseEvent e) {
-       this.gamePanel.getGame().getPlayer().setArmsAngle(e.getX(), e.getY());
+       this.gamePanel.getGame().getPlayer().updateArms(e.getX(), e.getY());
+       this.gamePanel.getGame().getPlayer().updateCrosshair(e.getX(),e.getY());
     }
     
 }

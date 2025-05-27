@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -8,13 +8,9 @@ import inputs.KeyBoardInput;
 import inputs.MouseInput;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import static main.Game.GAME_HEIGTH;
+import static main.Game.GAME_WIDTH;
 
 /**
  *
@@ -37,7 +33,7 @@ public class GamePanel extends JPanel {
     }
 
     private void setPanelSize() {
-        Dimension size = new Dimension(1280, 640);
+        Dimension size = new Dimension(GAME_WIDTH, GAME_HEIGTH);
         setMinimumSize(size);
         setMaximumSize(size);
         setPreferredSize(size);
@@ -52,7 +48,6 @@ public class GamePanel extends JPanel {
     void updateGame() {
 
     }
-
     public Game getGame() {
         return game;
     }

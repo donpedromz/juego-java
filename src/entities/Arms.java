@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import main.GamePanel;
+import weapons.Weapon;
+import utils.LoadSave;
 
 /**
  *
@@ -28,9 +30,19 @@ public class Arms {
     private Point pivot;
     private double angle;
     private int currentWeaponAction;
-    private int aniTick, aniIndex, aniSpeed = 15;
-    private static int ARM_OFFSET_X = 19, ARM_OFFSET_Y = 21;
+    int armLength;    // Largo horizontal del sprite
+    int armVerticalOffset;
+    private int aniTick, aniIndex, aniSpeed = 6;
+    float gunX;
+    float gunY;
+    private static int ARM_OFFSET_X = 24, ARM_OFFSET_Y = 23;
     private boolean shooting;
+    private long lastShot;
+    private Weapon actualWeapon;
+
+    public double getAngle() {
+        return angle;
+    }
 
     public Arms(float x, float y) {
         this.x = x;
@@ -40,23 +52,46 @@ public class Arms {
         this.pivot.y = (int) y + ARM_OFFSET_Y;
         importImg();
         loadAnimations();
+        this.gunX = (float) (pivot.x + Math.cos(angle) * armLength);
+        this.gunY = (float) (float) (pivot.y + Math.sin(angle) * armVerticalOffset);
+
+    }
+
+    public void update() {
+        setAnimation();
+        updateAnimationTick();
     }
 
     public void updatePos(float playerX, float playerY) {
         this.x = playerX;
         this.y = playerY;
-
         // Asignar el nuevo pivote de forma absoluta (no acumular)
         this.pivot.x = (int) playerX + ARM_OFFSET_X;
         this.pivot.y = (int) playerY + ARM_OFFSET_Y;
+        this.gunX = (float) (pivot.x + Math.cos(angle) * armLength);
+        this.gunY = (float) (pivot.y + Math.sin(angle) * armVerticalOffset);
     }
 
-    private void setAnimation() {
+    private void updateAnimationTick() {
+        aniTick++;
+        if (aniTick >= aniSpeed) {
+            aniTick = 0;
+            aniIndex += 1;
+            if (aniIndex
+                    >= WeaponConstants.GetSpriteAmmount(currentWeaponAction)) {
+                aniIndex = 0;
+            }
+        }
+    }
+
+    public void setAnimation() {
         int startAni = this.currentWeaponAction;
-        if (shooting) {
+        if (shooting && System.currentTimeMillis()
+                - actualWeapon.getLastShotTime() < 300) {
             this.currentWeaponAction = WeaponConstants.SHOOTING;
         } else {
             this.currentWeaponAction = WeaponConstants.IDDLE;
+            this.shooting = false;
         }
         if (startAni != this.currentWeaponAction) {
             this.aniTick = 0;
@@ -73,15 +108,20 @@ public class Arms {
                 animations[i][j] = armsImg.getSubimage(i * 65, j * 25, 65, 25);
             }
         }
+        this.armLength = animations[0][0].getWidth();
+        this.armVerticalOffset = animations[0][0].getHeight();
     }
 
     private void importImg() {
-        InputStream is = getClass().getResourceAsStream("/resources/arms/p1/p1_pistol.png");
-        try {
-            this.armsImg = ImageIO.read(is);
-        } catch (IOException ex) {
-            Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.armsImg = LoadSave.getSpriteAtlas(LoadSave.ARMS_ATLAS);
+    }
+
+    public void setActualWeapon(Weapon actualWeapon) {
+        this.actualWeapon = actualWeapon;
+    }
+
+    public void setShooting(boolean shooting) {
+        this.shooting = shooting;
     }
 
     public void setAngle(int x, int y) {
@@ -95,16 +135,22 @@ public class Arms {
         }
     }
 
+    public float getGunX() {
+        return gunX;
+    }
+
+    public float getGunY() {
+        return gunY;
+    }
+
     public void render(Graphics2D g2d) {
         AffineTransform old = g2d.getTransform();
-
         g2d.rotate(this.angle, pivot.x, pivot.y);
-
         // Dibuja el brazo "compensado" desde el pivote hacia atrás
         g2d.drawImage(
                 this.animations[currentWeaponAction][aniIndex],
-                (int) (pivot.x),
-                (int) (pivot.y),
+                (int) (pivot.x) - 5,
+                (int) (pivot.y) - 5,
                 null
         );
 

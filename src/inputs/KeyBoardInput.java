@@ -28,6 +28,9 @@ public class KeyBoardInput implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
+            case KeyEvent.VK_R:
+                this.gamePanel.getGame().getPlayer().reload();
+                break;
             case KeyEvent.VK_A:
                 this.gamePanel.getGame().getPlayer().setLeft(true);
                 break;

@@ -9,10 +9,11 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+import java.util.ArrayList;
+import java.util.List;
+import weapons.*;
 import main.GamePanel;
+import utils.LoadSave;
 import static utils.constants.PlayerConstants;
 import static utils.constants.Directions;
 
@@ -28,20 +29,45 @@ public class Player extends Entity {
     private int currentPlayerAction = PlayerConstants.IDDLE;
     private int aniTick, aniIndex, aniSpeed = 15;
     private boolean moving = false;
-    private boolean left, up, right, down;
+    private boolean left, up, right, down, jump;
+    private float airSpeed = 0f;
+    private static final float GRAVITY = 0.04f;
     private float playerSpeed = 2.0f;
+    private List<Weapon> ownedWeapons;
+    private Weapon currentWeapon;
+    private List<Bullet> bullets;
+    private Crosshair crosshair;
 
     public Player(float x, float y) {
         super(x, y);
-        importImg();
         loadAnimations();
-        this.arms = new Arms(0,0);
+        this.ownedWeapons = new ArrayList<>();
+        this.currentWeapon = new Pistol();
+        this.ownedWeapons.add(currentWeapon);
+        this.arms = new Arms(0, 0);
+        this.arms.setActualWeapon(currentWeapon);
+        this.crosshair = new Crosshair();
     }
 
     public void update() {
         updateAnimationTick();
         setAnimation();
         updatePos();
+        updateWeapons();
+        arms.update();
+    }
+
+    public void pickUpWeapon(Weapon w) {
+        if (!this.ownedWeapons.contains(w)) {
+            ownedWeapons.add(w);
+        }
+        this.currentWeapon = w;
+    }
+
+    public void switchWeapon(int index) {
+        if (index >= 0 && index < ownedWeapons.size()) {
+            currentWeapon = ownedWeapons.get(index);
+        }
     }
 
     private void setAnimation() {
@@ -60,11 +86,15 @@ public class Player extends Entity {
         g.drawImage(animations[currentPlayerAction][aniIndex],
                 (int) this.x, (int) this.y, 64, 64, null);
         this.arms.render((Graphics2D) g);
+        renderBullets((Graphics2D) g);
+        crosshair.render((Graphics2D) g);
     }
 
     private void loadAnimations() {
+        this.playerImg = LoadSave.getSpriteAtlas(LoadSave.PLAYER_ATLAS);
         int cols = this.playerImg.getWidth() / 64;
         int rows = this.playerImg.getHeight() / 64;
+        
         this.animations = new BufferedImage[cols][rows];
         for (int i = 0; i < animations.length; i++) {
             for (int j = 0; j < animations[0].length; j++) {
@@ -84,16 +114,6 @@ public class Player extends Entity {
             }
         }
     }
-
-    private void importImg() {
-        InputStream is = getClass().getResourceAsStream("/resources/p1.png");
-        try {
-            this.playerImg = ImageIO.read(is);
-        } catch (IOException ex) {
-            Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     private void updatePos() {
         moving = false;
         if (left && !right) {
@@ -118,9 +138,13 @@ public class Player extends Entity {
 
     }
 
-    public void setArmsAngle(int x, int y) {
-        this.arms.setAngle(x, y);
+    public void shoot() {
+        this.arms.setShooting(true);
+        this.currentWeapon.shoot(this.arms.getGunX(), this.arms.getGunY(), this.arms.getAngle());
+    }
 
+    public void updateArms(int x, int y) {
+        this.arms.setAngle(x, y);
     }
 
     public boolean isLeft() {
@@ -167,4 +191,30 @@ public class Player extends Entity {
         this.aniIndex = 0;
     }
 
+    private void updateWeapons() {
+        for (Weapon w : this.ownedWeapons) {
+            for (Bullet b : w.getBullets()) {
+                {
+                    b.update();
+                }
+            }
+        }
+
+    }
+
+    private void renderBullets(Graphics2D graphics2D) {
+        for (Weapon w : this.ownedWeapons) {
+            for (Bullet b : w.getBullets()) {
+                b.render(graphics2D);
+            }
+        }
+    }
+
+    public void reload() {
+        this.currentWeapon.reload(5);
+    }
+
+    public void updateCrosshair(int mouseX, int mouseY) {
+        this.crosshair.update(this.x, this.y, mouseX, mouseY);
+    }
 }
