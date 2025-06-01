@@ -20,7 +20,7 @@ import static main.Game.TILES_IN_WIDTH;
  */
 public class LoadSave {
     public static final String PLAYER_ATLAS = "resources/p1.png";
-    public static final String LEVEL_ATLAS = "resources/outside_sprites.png";
+    public static final String LEVEL_ATLAS = "resources/TILE_SET.png";
     public static final String LVL_1_DATA = "resources/level_one_data.png";
     public static final String ARMS_ATLAS = "resources/arms/p1/pistol.png";
     public static BufferedImage getSpriteAtlas(String filename){
@@ -47,7 +47,7 @@ public class LoadSave {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getRed();
                 if(value >= 48){
-                    value = 0;
+                    value = 6;
                 }
                 lvlData[j][i] = value;
             }

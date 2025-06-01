@@ -22,7 +22,7 @@ public class Game implements Runnable {
     private final int FPS_SET = 90;
     private final int UPS_SET = 100;
     public final static int TILE_DEFAULT_SIZE = 32;
-    public static final float SCALE = 1.0f;
+    public static final float SCALE = 0.87f;
     public static final int TILES_IN_WIDTH = 40;
     public static final int TILES_IN_HEIGHT = 20;
     public static final int TILES_SIZE = (int) (TILE_DEFAULT_SIZE * SCALE);
@@ -30,6 +30,7 @@ public class Game implements Runnable {
     public static final int GAME_HEIGTH = TILES_SIZE * TILES_IN_HEIGHT;
     private Player player;
     private LevelManager levelManager;
+
     public Game() {
         initClasses();
         this.gamePanel = new GamePanel(this);
@@ -39,11 +40,11 @@ public class Game implements Runnable {
         startGameLoop();
 
     }
-
+    
     private void loadSounds() {
         SoundManager.loadSound("pistol_shot", "/resources/sounds/weapons/pistol/pistol_shot.wav");
         SoundManager.loadSound("pistol_ricochet", "/resources/sounds/weapons/pistol/pistol_ricochet.wav");
-        SoundManager.loadSound("pistol_empty","/resources/sounds/weapons/pistol/pistol_empty.wav");
+        SoundManager.loadSound("pistol_empty", "/resources/sounds/weapons/pistol/pistol_empty.wav");
         SoundManager.loadSound("pistol_reload", "/resources/sounds/weapons/pistol/pistol_reload.wav");
     }
 
@@ -104,8 +105,11 @@ public class Game implements Runnable {
     }
 
     private void initClasses() {
-        this.player = new Player(0, 0);
         this.levelManager = new LevelManager(this);
+        this.player = new Player(500, 200, 64, 64);
+        this.player.loadLvlData(
+                levelManager.getLvl1().getLvlData());
+
     }
 
     void windowFocusLost() {

@@ -43,13 +43,28 @@ public class LevelManager {
     }
 
     private void importOutsideSprites() {
-        BufferedImage img = LoadSave.getSpriteAtlas(LoadSave.LEVEL_ATLAS);
-        this.levelSprite = new BufferedImage[48];
-        for(int j = 0; j < 4; j++){
-            for(int i = 0; i < 12; i++){
-                int index = j*12 + i;
-                levelSprite[index] = img.getSubimage(i*32, j*32, 32, 32);
-            }
+    BufferedImage img = LoadSave.getSpriteAtlas(LoadSave.LEVEL_ATLAS);
+
+    int tileWidth = 16;
+    int tileHeight = 16;
+
+    int tilesX = img.getWidth() / tileWidth;
+    int tilesY = img.getHeight() / tileHeight;
+
+    BufferedImage[] levelSprites = new BufferedImage[tilesX * tilesY];
+
+    for (int y = 0; y < tilesY; y++) {
+        for (int x = 0; x < tilesX; x++) {
+            int index = y * tilesX + x;
+            levelSprites[index] = img.getSubimage(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
         }
     }
+    this.levelSprite = levelSprites;
+}
+
+    public Level getLvl1() {
+        return lvl1;
+    }
+    
+
 }

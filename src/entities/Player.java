@@ -15,7 +15,7 @@ import weapons.*;
 import main.GamePanel;
 import utils.LoadSave;
 import static utils.constants.PlayerConstants;
-import static utils.constants.Directions;
+import static utils.HelpMethods.canMoveHere;
 
 /**
  *
@@ -37,9 +37,10 @@ public class Player extends Entity {
     private Weapon currentWeapon;
     private List<Bullet> bullets;
     private Crosshair crosshair;
+    private int[][] levelData;
 
-    public Player(float x, float y) {
-        super(x, y);
+    public Player(float x, float y, int width, int height) {
+        super(x, y, width, height);
         loadAnimations();
         this.ownedWeapons = new ArrayList<>();
         this.currentWeapon = new Pistol();
@@ -55,6 +56,11 @@ public class Player extends Entity {
         updatePos();
         updateWeapons();
         arms.update();
+        this.updateHitbox();
+    }
+
+    public void loadLvlData(int[][] lvlData) {
+        this.levelData = lvlData;
     }
 
     public void pickUpWeapon(Weapon w) {
@@ -88,13 +94,14 @@ public class Player extends Entity {
         this.arms.render((Graphics2D) g);
         renderBullets((Graphics2D) g);
         crosshair.render((Graphics2D) g);
+        this.drawHitbox(g);
     }
 
     private void loadAnimations() {
         this.playerImg = LoadSave.getSpriteAtlas(LoadSave.PLAYER_ATLAS);
         int cols = this.playerImg.getWidth() / 64;
         int rows = this.playerImg.getHeight() / 64;
-        
+
         this.animations = new BufferedImage[cols][rows];
         for (int i = 0; i < animations.length; i++) {
             for (int j = 0; j < animations[0].length; j++) {
@@ -114,26 +121,32 @@ public class Player extends Entity {
             }
         }
     }
+
     private void updatePos() {
         moving = false;
+        if (!left && !right && !up && !down) {
+            return;
+        }
+        float xSpeed = 0, ySpeed = 0;
         if (left && !right) {
-            this.x -= this.playerSpeed;
+            xSpeed = -this.playerSpeed;
+
             arms.updatePos(x, y);
-            this.moving = true;
         } else if (right && !left) {
-            this.x += this.playerSpeed;
-            arms.updatePos(x, y);
-            this.moving = true;
+            xSpeed = this.playerSpeed;
         }
 
         if (up && !down) {
-            this.y -= this.playerSpeed;
-            arms.updatePos(x, y);
-            this.moving = true;
+            ySpeed = -this.playerSpeed;
         } else if (down && !up) {
-            this.y += this.playerSpeed;
+            ySpeed = this.playerSpeed;
+
+        }
+        if (canMoveHere(x + xSpeed, y + ySpeed, width, height, levelData)) {
+            this.x += xSpeed;
+            this.y += ySpeed;
             arms.updatePos(x, y);
-            this.moving = true;
+            moving = true;
         }
 
     }
