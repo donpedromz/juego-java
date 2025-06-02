@@ -24,6 +24,7 @@ public abstract class Weapon {
     protected String ricochetSound;
     protected String emptySound;
     protected String reloadSound;
+    protected int damage = 10;
     public Weapon(String shootSound, String ricochetSound, String emptySound, String reloadSound){
         this.shootSound = shootSound;
         this.ricochetSound = ricochetSound;
@@ -73,4 +74,9 @@ public abstract class Weapon {
     public void playReloadSound(){
         SoundManager.playSound(reloadSound);
     }
+
+    public int getDamage() {
+        return damage;
+    }
+    
 }

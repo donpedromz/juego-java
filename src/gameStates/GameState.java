@@ -12,6 +12,7 @@ public enum GameState {
     PLAYING,
     MENU,
     GAME_OVER,
-    PAUSED;
+    PAUSED,
+    GAME_WON;
     public static GameState state = PLAYING;
 }

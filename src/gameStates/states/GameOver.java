@@ -72,12 +72,6 @@ public class GameOver extends State {
         g2.setColor(Color.ORANGE);
         g2.drawString(retry, (Game.GAME_WIDTH - retryWidth) / 2, y + 60);
     }
-
-    @Override
-    public void update() {
-        // Aquí puedes agregar más animaciones si deseas (como partículas)
-    }
-
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_R) {

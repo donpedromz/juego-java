@@ -5,6 +5,8 @@
 package entities;
 
 import entities.enemies.Pendejo;
+import gameStates.GameState;
+import static gameStates.GameState.GAME_WON;
 import gameStates.states.Playing;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -24,7 +26,7 @@ public class EnemyManager {
     private Playing playing;
     private List<Pendejo> pendejos;
     private BufferedImage[][] pendejoArr;
-
+    private boolean stillEnemiesOnBattleground = false;
     public EnemyManager(Playing playing) {
         this.playing = playing;
         this.pendejos = new ArrayList<Pendejo>();
@@ -33,11 +35,16 @@ public class EnemyManager {
     }
 
     public void update(int[][] lvlData, Player player) {
+        stillEnemiesOnBattleground = false;
         for (Pendejo p : pendejos) {
             if (p.isActive()) {
                 p.update(lvlData, player);
+                stillEnemiesOnBattleground = true;
             }
 
+        }
+        if(!stillEnemiesOnBattleground){
+            GameState.state = GAME_WON;
         }
     }
 
@@ -72,7 +79,8 @@ public class EnemyManager {
         for (Bullet b : player.getCurrentWeapon().getBullets()) {
             for (Pendejo p : pendejos) {
                 if (b.getHitbox().intersects(p.getHitbox()) && b.isActive()) {
-                    p.hurt(10);
+                    System.out.println(player.getCurrentWeapon().getDamage());
+                    p.hurt(player.getCurrentWeapon().getDamage());
                     b.deactivate();
                     SoundManager.playSound("hurt1");
                     return;
