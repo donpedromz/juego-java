@@ -46,7 +46,8 @@ public class KeyBoardInput implements KeyListener {
                 this.gamePanel.
                         getGame().getPlayer().setUp(true);
                 break;
-
+            case KeyEvent.VK_SPACE:
+                this.gamePanel.getGame().getPlayer().setJump(true);
             default:
                 return;
 
@@ -71,7 +72,8 @@ public class KeyBoardInput implements KeyListener {
                 this.gamePanel.
                         getGame().getPlayer().setUp(false);
                 break;
-
+            case KeyEvent.VK_SPACE:
+                this.gamePanel.getGame().getPlayer().setJump(false);
             default:
                 return;
 

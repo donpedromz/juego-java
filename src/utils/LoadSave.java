@@ -19,11 +19,14 @@ import static main.Game.TILES_IN_WIDTH;
  * @author juanp
  */
 public class LoadSave {
+
     public static final String PLAYER_ATLAS = "resources/p1.png";
     public static final String LEVEL_ATLAS = "resources/TILE_SET.png";
     public static final String LVL_1_DATA = "resources/level_one_data.png";
     public static final String ARMS_ATLAS = "resources/arms/p1/pistol.png";
-    public static BufferedImage getSpriteAtlas(String filename){
+    public static final String ENEMY1_ATLAS = "resources/enemies/e1.png";
+
+    public static BufferedImage getSpriteAtlas(String filename) {
         BufferedImage img = null;
         InputStream is = LoadSave.class.getResourceAsStream("/" + filename);
         try {
@@ -39,14 +42,15 @@ public class LoadSave {
         }
         return img;
     }
-    public static int[][] getLevelData(){
+
+    public static int[][] getLevelData() {
         int[][] lvlData = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
         BufferedImage img = getSpriteAtlas(LVL_1_DATA);
-        for(int j = 0; j < img.getHeight(); j++){
-            for(int i = 0; i < img.getWidth(); i++){
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getRed();
-                if(value >= 48){
+                if (value >= 48) {
                     value = 6;
                 }
                 lvlData[j][i] = value;

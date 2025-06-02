@@ -14,6 +14,7 @@ import weapons.*;
 import utils.LoadSave;
 import static utils.Constants.PlayerConstants;
 import static utils.HelpMethods.*;
+
 /**
  *
  * @author Juan Pablo
@@ -42,7 +43,7 @@ public class Player extends Entity {
     private float airSpeed = 0f;
     private float gravity = 0.04f * Game.SCALE;
     private float jumpSpeed = -2.25f * Game.SCALE;
-    private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
+    private float fallSpeedAfterCollision = 0.2f * Game.SCALE;
     private boolean inAir = false;
 
     public Player(float x, float y, float width, float height) {
@@ -52,10 +53,11 @@ public class Player extends Entity {
         this.ownedWeapons = new ArrayList<>();
         this.currentWeapon = new Pistol();
         this.ownedWeapons.add(currentWeapon);
-        this.arms = new Arms(hitbox.x - 
-                xDrawOffset + xRightDrawOffset, hitbox.y);
+        this.arms = new Arms(hitbox.x
+                - xDrawOffset + xRightDrawOffset, hitbox.y);
         this.arms.setActualWeapon(currentWeapon);
         this.crosshair = new Crosshair();
+
     }
 
     public void update() {
@@ -68,6 +70,9 @@ public class Player extends Entity {
 
     public void loadLvlData(int[][] lvlData) {
         this.levelData = lvlData;
+        if (!isEntityOnFloor(hitbox, lvlData)) {
+            inAir = true;
+        }
     }
 
     public void pickUpWeapon(Weapon w) {
@@ -131,7 +136,7 @@ public class Player extends Entity {
 
     private void updatePos() {
         moving = false;
-        if(jump){
+        if (jump) {
             jump();
         }
         if (!left && !right && !inAir) {
@@ -143,17 +148,22 @@ public class Player extends Entity {
         } else if (right) {
             xSpeed += this.playerSpeed;
         }
+        if (!inAir) {
+            if (!isEntityOnFloor(hitbox, this.levelData)) {
+                inAir = true;
+            }
+        }
         if (inAir) {
-            if(canMoveHere(hitbox.x, hitbox.y + airSpeed, 
-                    hitbox.width, hitbox.height, levelData)){
+            if (canMoveHere(hitbox.x, hitbox.y + airSpeed,
+                    hitbox.width, hitbox.height, levelData)) {
                 hitbox.y += airSpeed;
                 airSpeed += gravity;
                 updateXPos(xSpeed);
-            }else{
+            } else {
                 hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
-                if(airSpeed > 0){
+                if (airSpeed > 0) {
                     resetInAir();
-                }else{
+                } else {
                     airSpeed = fallSpeedAfterCollision;
                 }
                 updateXPos(xSpeed);
@@ -248,10 +258,10 @@ public class Player extends Entity {
         if (canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)) {
             this.hitbox.x += xSpeed;
             arms.updatePos(this.hitbox.x - xDrawOffset + xRightDrawOffset, this.hitbox.y);
-        }/*else{
+        } else {
             hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
-            arms.setX(GetEntityXPosNextToWall(hitbox, xSpeed)); 
-        }*/
+        }
+            arms.updatePos(this.hitbox.x - xDrawOffset + xRightDrawOffset, this.hitbox.y);
     }
 
     private void resetInAir() {
@@ -260,11 +270,20 @@ public class Player extends Entity {
     }
 
     private void jump() {
-        if(inAir){
+        if (inAir) {
             return;
-        }else{
+        } else {
             inAir = true;
             airSpeed = jumpSpeed;
         }
     }
+
+    public boolean isJump() {
+        return jump;
+    }
+
+    public void setJump(boolean jump) {
+        this.jump = jump;
+    }
+
 }
