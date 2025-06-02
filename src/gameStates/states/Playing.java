@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import levels.LevelManager;
+import gameStates.GameState;
 import main.Game;
 
 /**
@@ -95,6 +96,10 @@ public class Playing extends State {
                 break;
             case KeyEvent.VK_SPACE:
                 this.player.setJump(false);
+                break;
+            case KeyEvent.VK_P:
+                GameState.state = GameState.PAUSED;
+                break;
             default:
                 return;
 

@@ -8,9 +8,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import main.GamePanel;
 import gameStates.GameState;
+import static gameStates.GameState.GAME_OVER;
 import static gameStates.GameState.MENU;
+import static gameStates.GameState.PAUSED;
 import static gameStates.GameState.PLAYING;
-import gameStates.states.Playing;
 
 /**
  *
@@ -36,6 +37,12 @@ public class KeyBoardInput implements KeyListener {
             case MENU:
                 this.gamePanel.getGame().getMenu().keyPressed(e);
                 break;
+            case GAME_OVER:
+                this.gamePanel.getGame().getGameOver().keyPressed(e);
+                break;
+            case PAUSED:
+                this.gamePanel.getGame().getPaused().keyPressed(e);
+                break;
             default:
                 break;
         }
@@ -46,9 +53,16 @@ public class KeyBoardInput implements KeyListener {
         switch (GameState.state) {
             case PLAYING:
                 this.gamePanel.getGame().getPlaying().keyReleased(e);
+                break;
             case MENU:
                 this.gamePanel.getGame().getMenu().keyReleased(e);
                 break;
+            case GAME_OVER:
+                this.gamePanel.getGame().getGameOver().keyReleased(e);
+                break;
+            case PAUSED:
+                this.gamePanel.getGame().getPaused().keyReleased(e);
+               break;
             default:
                 break;
         }

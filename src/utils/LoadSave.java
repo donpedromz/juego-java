@@ -31,6 +31,7 @@ public class LoadSave {
     public static final String HEALTH_ICON_ATLAS = "resources/hp_icon.png";
     public static final String AMMO_ICON_ATLAS = "resources/ammo_icon.png";
     public static final String ARMOR_ICON_ATLAS = "resources/armor_icon.png";
+    public static final String BACKGROUND_ATLAS = "resources/background.jpg";
 
     public static BufferedImage getSpriteAtlas(String filename) {
         BufferedImage img = null;

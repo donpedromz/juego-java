@@ -7,6 +7,7 @@ package main;
 import gameStates.GameState;
 import gameStates.states.GameOver;
 import gameStates.states.Menu;
+import gameStates.states.Pause;
 import gameStates.states.Playing;
 import java.awt.Graphics;
 import utils.SoundManager;
@@ -32,6 +33,8 @@ public class Game implements Runnable {
     private Menu menu;
     private Playing playing;
     private GameOver gameOver;
+    private Pause paused;
+
     public Game() {
         initClasses();
         this.gamePanel = new GamePanel(this);
@@ -66,6 +69,7 @@ public class Game implements Runnable {
                 break;
             case GAME_OVER:
                 gameOver.update();
+                break;
             default:
                 break;
         }
@@ -82,6 +86,10 @@ public class Game implements Runnable {
                 break;
             case GAME_OVER:
                 gameOver.draw(g);
+                break;
+            case PAUSED:
+                paused.draw(g);
+                break;
             default:
                 break;
         }
@@ -135,6 +143,7 @@ public class Game implements Runnable {
         this.playing = new Playing(this);
         this.menu = new Menu(this);
         this.gameOver = new GameOver(this);
+        this.paused = new Pause(this);
     }
 
     public Menu getMenu() {
@@ -143,6 +152,14 @@ public class Game implements Runnable {
 
     public Playing getPlaying() {
         return playing;
+    }
+
+    public Pause getPaused() {
+        return paused;
+    }
+
+    public GameOver getGameOver() {
+        return gameOver;
     }
 
 }
