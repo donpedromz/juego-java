@@ -3,11 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package main;
-
-import entities.Crosshair;
-import entities.Player;
+import gameStates.GameState;
+import gameStates.states.Menu;
+import gameStates.states.Playing;
 import java.awt.Graphics;
-import levels.LevelManager;
 import utils.SoundManager;
 
 /**
@@ -28,8 +27,8 @@ public class Game implements Runnable {
     public static final int TILES_SIZE = (int) (TILE_DEFAULT_SIZE * SCALE);
     public static final int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public static final int GAME_HEIGTH = TILES_SIZE * TILES_IN_HEIGHT;
-    private Player player;
-    private LevelManager levelManager;
+    private Menu menu;
+    private Playing playing;
 
     public Game() {
         initClasses();
@@ -40,7 +39,7 @@ public class Game implements Runnable {
         startGameLoop();
 
     }
-    
+
     private void loadSounds() {
         SoundManager.loadSound("pistol_shot", "/resources/sounds/weapons/pistol/pistol_shot.wav");
         SoundManager.loadSound("pistol_ricochet", "/resources/sounds/weapons/pistol/pistol_ricochet.wav");
@@ -54,13 +53,31 @@ public class Game implements Runnable {
     }
 
     public void update() {
-        player.update();
-        levelManager.update();
+        switch (GameState.state) {
+            case PLAYING:
+                playing.update();
+                break;
+            case MENU:
+                menu.update();
+                break;
+            default:
+                break;
+        }
+
     }
 
     public void render(Graphics g) {
-        player.render(g);
-        levelManager.draw(g);
+        switch (GameState.state) {
+            case PLAYING:
+                playing.draw(g);
+                break;
+            case MENU:
+                menu.draw(g);
+                break;
+            default:
+                break;
+        }
+
     }
 
     @Override
@@ -100,19 +117,23 @@ public class Game implements Runnable {
         }
     }
 
-    public Player getPlayer() {
-        return player;
+    void windowFocusLost() {
+        if(GameState.state == GameState.PLAYING){
+            playing.getPlayer().resetDirBooleans();
+        }
     }
 
     private void initClasses() {
-        this.levelManager = new LevelManager(this);
-        this.player = new Player(500, 200, 64, 64);
-        this.player.loadLvlData(
-                levelManager.getLvl1().getLvlData());
-
+        this.playing = new Playing(this);
+        this.menu = new Menu(this);
     }
 
-    void windowFocusLost() {
-        this.player.resetDirBooleans();
+    public Menu getMenu() {
+        return menu;
     }
+
+    public Playing getPlaying() {
+        return playing;
+    }
+    
 }

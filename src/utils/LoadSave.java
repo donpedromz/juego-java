@@ -4,16 +4,17 @@
  */
 package utils;
 
+import entities.enemies.Pendejo;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import static main.Game.TILES_IN_HEIGHT;
-import static main.Game.TILES_IN_WIDTH;
-
+import static main.Game.*;
+import static utils.Constants.EnemyConstants.*;
 /**
  *
  * @author juanp
@@ -42,7 +43,21 @@ public class LoadSave {
         }
         return img;
     }
-
+    public static ArrayList<Pendejo> getPendejos(){
+        ArrayList<Pendejo> pendejos = new ArrayList<Pendejo>();
+        int[][] lvlData = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
+        BufferedImage img = getSpriteAtlas(LVL_1_DATA);
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getGreen();
+                if (value == PENDEJO) {
+                    pendejos.add(new Pendejo(i * TILES_SIZE, j * TILES_SIZE));
+                }
+            }
+        }
+        return pendejos;
+    }
     public static int[][] getLevelData() {
         int[][] lvlData = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
         BufferedImage img = getSpriteAtlas(LVL_1_DATA);

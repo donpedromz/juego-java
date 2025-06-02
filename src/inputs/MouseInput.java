@@ -4,6 +4,9 @@
  */
 package inputs;
 
+import gameStates.GameState;
+import static gameStates.GameState.MENU;
+import static gameStates.GameState.PLAYING;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -13,14 +16,25 @@ import main.GamePanel;
  *
  * @author juanp
  */
-public class MouseInput implements MouseListener, MouseMotionListener{
+public class MouseInput implements MouseListener, MouseMotionListener {
+
     private GamePanel gamePanel;
-    public MouseInput(GamePanel gamePanel){
+
+    public MouseInput(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
+
     @Override
     public void mouseClicked(MouseEvent e) {
-        this.gamePanel.getGame().getPlayer().shoot();
+        switch (GameState.state) {
+            case PLAYING:
+                this.gamePanel.getGame().getPlaying().mouseClicked(e);
+            case MENU:
+                this.gamePanel.getGame().getMenu().mouseClicked(e);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -45,8 +59,15 @@ public class MouseInput implements MouseListener, MouseMotionListener{
 
     @Override
     public void mouseMoved(MouseEvent e) {
-       this.gamePanel.getGame().getPlayer().updateArms(e.getX(), e.getY());
-       this.gamePanel.getGame().getPlayer().updateCrosshair(e.getX(),e.getY());
+        switch (GameState.state) {
+            case PLAYING:
+                this.gamePanel.getGame().getPlaying().mouseMoved(e);
+            case MENU:
+                this.gamePanel.getGame().getMenu().mouseMoved(e);
+                break;
+            default:
+                break;
+        }
     }
-    
+
 }
