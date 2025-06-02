@@ -39,7 +39,8 @@ public class Playing extends State {
     public void update(){
         this.player.update();
         this.levelManager.update();
-        this.enemyManager.update();
+        this.enemyManager.update(this.levelManager.
+                getLvl1().getLvlData());
     }
     @Override
     public void draw(Graphics g){

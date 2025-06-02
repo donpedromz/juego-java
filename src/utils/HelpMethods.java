@@ -81,4 +81,14 @@ public class HelpMethods {
             return currentTile * Game.TILES_SIZE;
         }
     }
+
+    public static boolean isFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
+    float xLeft = hitbox.x + xSpeed;
+    float xRight = hitbox.x + xSpeed + hitbox.width;
+
+    float y = hitbox.y + hitbox.height + 1;
+
+    return isSolid(xLeft, y, lvlData) || isSolid(xRight, y, lvlData);
+}
+
 }

@@ -26,9 +26,9 @@ public class EnemyManager {
         loadEnemyImgs();
         addEnemies();
     }
-    public void update(){
+    public void update(int[][] lvlData){
         for(Pendejo p : pendejos){
-            p.update();
+            p.update(lvlData);
         }
     }
     public void draw(Graphics g){
@@ -48,12 +48,12 @@ public class EnemyManager {
 
     private void drawEnemies(Graphics g) {
         for(Pendejo p : pendejos){
+            p.drawHitbox(g);
             g.drawImage(pendejoArr[p.getEnemyState()][p.getAniIndex()],(int) 
-                    p.getHitbox().x, (int)p.getHitbox().y, 
+                    p.getHitbox().x, (int)p.getHitbox().y - PENDEJO_YDRAW_OFFSET, 
                     PENDEJO_ANCHO, PENDEJO_ALTO,null);
         }
     }
-
     private void addEnemies() {
         this.pendejos = LoadSave.getPendejos();
     }

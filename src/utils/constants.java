@@ -15,15 +15,17 @@ public class Constants {
     public static class EnemyConstants {
 
         public static final int PENDEJO = 0;
-        public static final int IDDLE = 0;
-        public static final int WALK = 1;
-        public static final int ATTACK = 2;
-        public static final int HURT = 3;
-        public static final int DEATH = 4;
+        public static final int IDDLE = 3;
+        public static final int WALK = 4;
+        public static final int ATTACK = 0;
+        public static final int HURT = 2;
+        public static final int DEATH = 1;
         public static final int PENDEJO_ANCHO_ESTANDAR = 48;
         public static final int PENDEJO_ALTO_ESTANDAR = 48;
-        public static final int PENDEJO_ANCHO = (int) (Game.SCALE * PENDEJO_ANCHO_ESTANDAR) + 32;
-        public static final int PENDEJO_ALTO = (int) (Game.SCALE * PENDEJO_ALTO_ESTANDAR) + 32;
+        public static final int PENDEJO_ANCHO = (int) (Game.SCALE * PENDEJO_ANCHO_ESTANDAR*2);
+        public static final int PENDEJO_ALTO = (int) (Game.SCALE * PENDEJO_ALTO_ESTANDAR*2);
+        public static final int PENDEJO_xDRAW_OFFSET = (int) (Game.SCALE * 50);
+        public static final int PENDEJO_YDRAW_OFFSET = (int) (Game.SCALE * 20);
         public static int getSpritAmmount(int enemy_type, int enemy_state){
             switch(enemy_type){
                 // Cantidad de animaciones del Psendejo

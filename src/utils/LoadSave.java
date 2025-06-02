@@ -52,7 +52,7 @@ public class LoadSave {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == PENDEJO) {
-                    pendejos.add(new Pendejo(i * TILES_SIZE, j * TILES_SIZE));
+                    pendejos.add(new Pendejo(i * TILES_SIZE, (j * TILES_SIZE) - 10* SCALE));
                 }
             }
         }
