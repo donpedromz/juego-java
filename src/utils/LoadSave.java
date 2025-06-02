@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import static main.Game.*;
 import static utils.Constants.EnemyConstants.*;
+
 /**
  *
  * @author juanp
@@ -26,6 +27,10 @@ public class LoadSave {
     public static final String LVL_1_DATA = "resources/level_one_data.png";
     public static final String ARMS_ATLAS = "resources/arms/p1/pistol.png";
     public static final String ENEMY1_ATLAS = "resources/enemies/e1.png";
+    public static final String STATUS_ATLAS = "resources/hp_armor_ammo_hud.png";
+    public static final String HEALTH_ICON_ATLAS = "resources/hp_icon.png";
+    public static final String AMMO_ICON_ATLAS = "resources/ammo_icon.png";
+    public static final String ARMOR_ICON_ATLAS = "resources/armor_icon.png";
 
     public static BufferedImage getSpriteAtlas(String filename) {
         BufferedImage img = null;
@@ -43,7 +48,8 @@ public class LoadSave {
         }
         return img;
     }
-    public static ArrayList<Pendejo> getPendejos(){
+
+    public static ArrayList<Pendejo> getPendejos() {
         ArrayList<Pendejo> pendejos = new ArrayList<Pendejo>();
         int[][] lvlData = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
         BufferedImage img = getSpriteAtlas(LVL_1_DATA);
@@ -52,12 +58,13 @@ public class LoadSave {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == PENDEJO) {
-                    pendejos.add(new Pendejo(i * TILES_SIZE, (j * TILES_SIZE) - 10* SCALE));
+                    pendejos.add(new Pendejo(i * TILES_SIZE, (j * TILES_SIZE) - 10 * SCALE));
                 }
             }
         }
         return pendejos;
     }
+
     public static int[][] getLevelData() {
         int[][] lvlData = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
         BufferedImage img = getSpriteAtlas(LVL_1_DATA);

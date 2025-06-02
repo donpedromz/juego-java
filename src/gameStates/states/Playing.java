@@ -22,6 +22,7 @@ public class Playing extends State {
     private Player player;
     private LevelManager levelManager;
     private EnemyManager enemyManager;
+
     public Playing(Game game) {
         super(game);
         initClasses();
@@ -35,19 +36,22 @@ public class Playing extends State {
                 levelManager.getLvl1().getLvlData());
 
     }
+
     @Override
-    public void update(){
+    public void update() {
         this.player.update();
-        this.levelManager.update();
         this.enemyManager.update(this.levelManager.
-                getLvl1().getLvlData());
+                getLvl1().getLvlData(), this.player);
+        this.enemyManager.checkEnemyHit(player);
     }
+
     @Override
-    public void draw(Graphics g){
-        this.player.render(g);
+    public void draw(Graphics g) {
         this.levelManager.draw(g);
         this.enemyManager.draw(g);
+        this.player.render(g);
     }
+
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
@@ -113,5 +117,14 @@ public class Playing extends State {
     public Player getPlayer() {
         return player;
     }
+
+    public LevelManager getLevelManager() {
+        return levelManager;
+    }
+
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
+    }
     
+
 }

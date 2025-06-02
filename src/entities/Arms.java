@@ -9,12 +9,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.geom.AffineTransform;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import main.GamePanel;
 import weapons.Weapon;
 import utils.LoadSave;
 

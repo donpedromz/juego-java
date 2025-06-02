@@ -3,7 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package main;
+
 import gameStates.GameState;
+import gameStates.states.GameOver;
 import gameStates.states.Menu;
 import gameStates.states.Playing;
 import java.awt.Graphics;
@@ -29,7 +31,7 @@ public class Game implements Runnable {
     public static final int GAME_HEIGTH = TILES_SIZE * TILES_IN_HEIGHT;
     private Menu menu;
     private Playing playing;
-
+    private GameOver gameOver;
     public Game() {
         initClasses();
         this.gamePanel = new GamePanel(this);
@@ -45,6 +47,8 @@ public class Game implements Runnable {
         SoundManager.loadSound("pistol_ricochet", "/resources/sounds/weapons/pistol/pistol_ricochet.wav");
         SoundManager.loadSound("pistol_empty", "/resources/sounds/weapons/pistol/pistol_empty.wav");
         SoundManager.loadSound("pistol_reload", "/resources/sounds/weapons/pistol/pistol_reload.wav");
+        SoundManager.loadSound("hurt1", "/resources/sounds/entities/hurt1.wav");
+        SoundManager.loadSound("hurt2", "/resources/sounds/entities/hurt2.wav");
     }
 
     private void startGameLoop() {
@@ -60,6 +64,8 @@ public class Game implements Runnable {
             case MENU:
                 menu.update();
                 break;
+            case GAME_OVER:
+                gameOver.update();
             default:
                 break;
         }
@@ -74,6 +80,8 @@ public class Game implements Runnable {
             case MENU:
                 menu.draw(g);
                 break;
+            case GAME_OVER:
+                gameOver.draw(g);
             default:
                 break;
         }
@@ -118,7 +126,7 @@ public class Game implements Runnable {
     }
 
     void windowFocusLost() {
-        if(GameState.state == GameState.PLAYING){
+        if (GameState.state == GameState.PLAYING) {
             playing.getPlayer().resetDirBooleans();
         }
     }
@@ -126,6 +134,7 @@ public class Game implements Runnable {
     private void initClasses() {
         this.playing = new Playing(this);
         this.menu = new Menu(this);
+        this.gameOver = new GameOver(this);
     }
 
     public Menu getMenu() {
@@ -135,5 +144,5 @@ public class Game implements Runnable {
     public Playing getPlaying() {
         return playing;
     }
-    
+
 }

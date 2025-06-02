@@ -42,6 +42,14 @@ public abstract class Weapon {
         this.ammo = ammo;
     }
 
+    public int getAmmo() {
+        return ammo;
+    }
+
+    public int getMaxAmmo() {
+        return maxAmmo;
+    }
+    
     public long getFireRate() {
         return fireRate;
     }

@@ -37,11 +37,6 @@ public class LevelManager {
         }
 
     }
-
-    public void update() {
-
-    }
-
     private void importOutsideSprites() {
     BufferedImage img = LoadSave.getSpriteAtlas(LoadSave.LEVEL_ATLAS);
 

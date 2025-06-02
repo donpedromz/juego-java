@@ -27,6 +27,36 @@ public class HelpMethods {
         return false;
     }
 
+    public static boolean isAllTileWalkable(int xStart,
+            int xEnd, int yTile, int[][] lvlData) {
+        for (int i = 0; i < xEnd - xStart; i++) {
+            if (isTileSolid(xStart + i, yTile, lvlData)) {
+                return false;
+            }
+            if(!isTileSolid(xStart + i, yTile + 1, lvlData)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isSightClear(int[][] lvlData,
+            Rectangle2D.Float hitbox1,
+            Rectangle2D.Float hitbox2, int yTile) {
+        int firstXTile = (int) (hitbox1.x / Game.TILES_SIZE);
+        int secondXTile = (int) (hitbox2.x / Game.TILES_SIZE);
+        if (firstXTile > secondXTile) {
+            if(!isAllTileWalkable(secondXTile, firstXTile, yTile, lvlData)){
+                return false;
+            }
+        } else {
+            if(!isAllTileWalkable(firstXTile, secondXTile, yTile, lvlData)){
+                return false;
+            }
+        }
+        return true;
+    }
+
     private static boolean isSolid(float x, float y, int[][] lvlData) {
         if (x < 0 || x >= Game.GAME_WIDTH) {
             return true;
@@ -36,7 +66,11 @@ public class HelpMethods {
         }
         float xIndex = x / Game.TILES_SIZE;
         float yIndex = y / Game.TILES_SIZE;
-        int value = lvlData[(int) yIndex][(int) xIndex];
+        return isTileSolid((int) xIndex, (int) yIndex, lvlData);
+    }
+
+    public static boolean isTileSolid(int xTile, int yTile, int[][] lvlData) {
+        int value = lvlData[yTile][xTile];
         if (value <= 35 && value >= 0 && value != 6) {
             return true;
         }
@@ -83,12 +117,12 @@ public class HelpMethods {
     }
 
     public static boolean isFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData) {
-    float xLeft = hitbox.x + xSpeed;
-    float xRight = hitbox.x + xSpeed + hitbox.width;
+        float xLeft = hitbox.x + xSpeed;
+        float xRight = hitbox.x + xSpeed + hitbox.width;
 
-    float y = hitbox.y + hitbox.height + 1;
+        float y = hitbox.y + hitbox.height + 1;
 
-    return isSolid(xLeft, y, lvlData) || isSolid(xRight, y, lvlData);
-}
+        return isSolid(xLeft, y, lvlData) || isSolid(xRight, y, lvlData);
+    }
 
 }

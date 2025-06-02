@@ -10,6 +10,8 @@ package gameStates;
  */
 public enum GameState {
     PLAYING,
-    MENU;
+    MENU,
+    GAME_OVER,
+    PAUSED;
     public static GameState state = PLAYING;
 }
