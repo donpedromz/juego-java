@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/entities/Player.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/weapons/Pistol.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/entities/Bullet.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/gameStates/states/GameOver.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/entities/EnemyManager.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/gameStates/State.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/entities/Crosshair.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/utils/SoundManager.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/gameStates/states/Menu.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/utils/HelpMethods.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/gameStates/states/Playing.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/entities/Entity.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/gameStates/StateMethods.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/entities/enemies/Pendejo.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/utils/LoadSave.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/entities/Enemy.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/main/Game.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/entities/Arms.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/weapons/Weapon.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/utils/Constants.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/levels/LevelManager.java</file>
+            <file>file:/C:/Users/juanp/Documents/NetBeansProyects/VideoJuegoPOO/src/gameStates/GameState.java</file>
+        </group>
+    </open-files>
+</project-private>
