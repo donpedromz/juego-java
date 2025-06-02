@@ -7,16 +7,13 @@ package entities;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import main.Game;
 import weapons.*;
-import main.GamePanel;
 import utils.LoadSave;
-import static utils.constants.PlayerConstants;
-import static utils.HelpMethods.canMoveHere;
-
+import static utils.Constants.PlayerConstants;
+import static utils.HelpMethods.*;
 /**
  *
  * @author Juan Pablo
@@ -30,7 +27,6 @@ public class Player extends Entity {
     private int aniTick, aniIndex, aniSpeed = 15;
     private boolean moving = false;
     private boolean left, up, right, down, jump;
-    private float airSpeed = 0f;
     private static final float GRAVITY = 0.04f;
     private float playerSpeed = 2.0f;
     private List<Weapon> ownedWeapons;
@@ -38,14 +34,26 @@ public class Player extends Entity {
     private List<Bullet> bullets;
     private Crosshair crosshair;
     private int[][] levelData;
+    // Hitbox
+    private float xDrawOffset = 42 * Game.SCALE;
+    private float yDrawOffset = 1 * Game.SCALE;
+    private float xRightDrawOffset = 22 * Game.SCALE;
+    // Gravedad y salto
+    private float airSpeed = 0f;
+    private float gravity = 0.04f * Game.SCALE;
+    private float jumpSpeed = -2.25f * Game.SCALE;
+    private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
+    private boolean inAir = false;
 
-    public Player(float x, float y, int width, int height) {
+    public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
         loadAnimations();
+        initHitbox(x, y, (width - xDrawOffset), height);
         this.ownedWeapons = new ArrayList<>();
         this.currentWeapon = new Pistol();
         this.ownedWeapons.add(currentWeapon);
-        this.arms = new Arms(0, 0);
+        this.arms = new Arms(hitbox.x - 
+                xDrawOffset + xRightDrawOffset, hitbox.y);
         this.arms.setActualWeapon(currentWeapon);
         this.crosshair = new Crosshair();
     }
@@ -56,7 +64,6 @@ public class Player extends Entity {
         updatePos();
         updateWeapons();
         arms.update();
-        this.updateHitbox();
     }
 
     public void loadLvlData(int[][] lvlData) {
@@ -90,7 +97,7 @@ public class Player extends Entity {
 
     public void render(Graphics g) {
         g.drawImage(animations[currentPlayerAction][aniIndex],
-                (int) this.x, (int) this.y, 64, 64, null);
+                (int) (hitbox.x - xDrawOffset + xRightDrawOffset), (int) (this.hitbox.y - yDrawOffset), 64, 64, null);
         this.arms.render((Graphics2D) g);
         renderBullets((Graphics2D) g);
         crosshair.render((Graphics2D) g);
@@ -124,31 +131,37 @@ public class Player extends Entity {
 
     private void updatePos() {
         moving = false;
-        if (!left && !right && !up && !down) {
+        if(jump){
+            jump();
+        }
+        if (!left && !right && !inAir) {
             return;
         }
         float xSpeed = 0, ySpeed = 0;
-        if (left && !right) {
-            xSpeed = -this.playerSpeed;
-
-            arms.updatePos(x, y);
-        } else if (right && !left) {
-            xSpeed = this.playerSpeed;
+        if (left) {
+            xSpeed -= this.playerSpeed;
+        } else if (right) {
+            xSpeed += this.playerSpeed;
         }
-
-        if (up && !down) {
-            ySpeed = -this.playerSpeed;
-        } else if (down && !up) {
-            ySpeed = this.playerSpeed;
-
+        if (inAir) {
+            if(canMoveHere(hitbox.x, hitbox.y + airSpeed, 
+                    hitbox.width, hitbox.height, levelData)){
+                hitbox.y += airSpeed;
+                airSpeed += gravity;
+                updateXPos(xSpeed);
+            }else{
+                hitbox.y = GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
+                if(airSpeed > 0){
+                    resetInAir();
+                }else{
+                    airSpeed = fallSpeedAfterCollision;
+                }
+                updateXPos(xSpeed);
+            }
+        } else {
+            updateXPos(xSpeed);
         }
-        if (canMoveHere(x + xSpeed, y + ySpeed, width, height, levelData)) {
-            this.x += xSpeed;
-            this.y += ySpeed;
-            arms.updatePos(x, y);
-            moving = true;
-        }
-
+        moving = true;
     }
 
     public void shoot() {
@@ -229,5 +242,29 @@ public class Player extends Entity {
 
     public void updateCrosshair(int mouseX, int mouseY) {
         this.crosshair.update(this.x, this.y, mouseX, mouseY);
+    }
+
+    private void updateXPos(float xSpeed) {
+        if (canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+            this.hitbox.x += xSpeed;
+            arms.updatePos(this.hitbox.x - xDrawOffset + xRightDrawOffset, this.hitbox.y);
+        }/*else{
+            hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
+            arms.setX(GetEntityXPosNextToWall(hitbox, xSpeed)); 
+        }*/
+    }
+
+    private void resetInAir() {
+        inAir = false;
+        airSpeed = 0f;
+    }
+
+    private void jump() {
+        if(inAir){
+            return;
+        }else{
+            inAir = true;
+            airSpeed = jumpSpeed;
+        }
     }
 }

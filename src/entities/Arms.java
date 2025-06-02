@@ -4,7 +4,7 @@
  */
 package entities;
 
-import static utils.constants.WeaponConstants;
+import static utils.Constants.WeaponConstants;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -156,4 +156,21 @@ public class Arms {
 
         g2d.setTransform(old);
     }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+    
 }

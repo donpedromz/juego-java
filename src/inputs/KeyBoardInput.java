@@ -7,7 +7,7 @@ package inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import main.GamePanel;
-import static utils.constants.Directions;
+import static utils.Constants.Directions;
 
 /**
  *
