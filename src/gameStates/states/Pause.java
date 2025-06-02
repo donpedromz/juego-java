@@ -31,8 +31,8 @@ public class Pause extends State {
             particles.add(new Particle(x, y, 1 + random.nextInt(3), 1 + random.nextInt(3), Color.ORANGE));
         }
     }
-
-    public void tick() {
+    @Override
+    public void update() {
         for (Particle p : particles) {
             p.tick();
         }

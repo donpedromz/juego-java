@@ -43,6 +43,9 @@ public class KeyBoardInput implements KeyListener {
             case PAUSED:
                 this.gamePanel.getGame().getPaused().keyPressed(e);
                 break;
+            case GAME_WON:
+                this.gamePanel.getGame().getWon().keyReleased(e);
+                break;
             default:
                 break;
         }
@@ -63,6 +66,9 @@ public class KeyBoardInput implements KeyListener {
             case PAUSED:
                 this.gamePanel.getGame().getPaused().keyReleased(e);
                break;
+            case GAME_WON:
+             this.gamePanel.getGame().getWon().keyReleased(e);
+             break;
             default:
                 break;
         }

@@ -17,6 +17,7 @@ public class Pistol extends Weapon {
         super("pistol_shot","pistol_ricochet","pistol_empty","pistol_reload");
         this.ammo = this.maxAmmo = 12;
         this.fireRate = 1000;
+        this.damage = 50;
         this.bullets = new ArrayList<>();
     }
     @Override

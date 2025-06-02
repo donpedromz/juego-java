@@ -6,6 +6,7 @@ package main;
 
 import gameStates.GameState;
 import gameStates.states.GameOver;
+import gameStates.states.GameWon;
 import gameStates.states.Menu;
 import gameStates.states.Pause;
 import gameStates.states.Playing;
@@ -34,7 +35,7 @@ public class Game implements Runnable {
     private Playing playing;
     private GameOver gameOver;
     private Pause paused;
-
+    private GameWon won;
     public Game() {
         initClasses();
         this.gamePanel = new GamePanel(this);
@@ -70,6 +71,12 @@ public class Game implements Runnable {
             case GAME_OVER:
                 gameOver.update();
                 break;
+            case GAME_WON:
+                won.update();
+                break;
+            case PAUSED:
+                paused.update();
+                break;
             default:
                 break;
         }
@@ -89,6 +96,9 @@ public class Game implements Runnable {
                 break;
             case PAUSED:
                 paused.draw(g);
+                break;
+            case GAME_WON:
+                won.draw(g);
                 break;
             default:
                 break;
@@ -144,6 +154,7 @@ public class Game implements Runnable {
         this.menu = new Menu(this);
         this.gameOver = new GameOver(this);
         this.paused = new Pause(this);
+        this.won = new GameWon(this);
     }
 
     public Menu getMenu() {
@@ -161,5 +172,10 @@ public class Game implements Runnable {
     public GameOver getGameOver() {
         return gameOver;
     }
+
+    public GameWon getWon() {
+        return won;
+    }
+    
 
 }

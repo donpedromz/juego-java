@@ -79,6 +79,12 @@ public class Player extends Entity {
     private int armorIconY = (int) (70 * Game.SCALE);
     private int armorTextX = (int) (165 * Game.SCALE);
     private int armorTextY = (int) (87 * Game.SCALE);
+    // Pistola
+    private BufferedImage pistolIcon;
+    private int pistolIconHeight = (int) (46 * Game.SCALE * statusUIScale);
+    private int pistolIconWidth = (int) (79 * Game.SCALE * statusUIScale);
+    private int pistolIconX = (int) (5 * Game.SCALE);
+    private int pistolIconY = (int) (30 * Game.SCALE);
 
     public Player(float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -153,6 +159,7 @@ public class Player extends Entity {
         this.healthIcon = LoadSave.getSpriteAtlas(LoadSave.HEALTH_ICON_ATLAS);
         this.ammoIcon = LoadSave.getSpriteAtlas(LoadSave.AMMO_ICON_ATLAS);
         this.armorIcon = LoadSave.getSpriteAtlas(LoadSave.ARMOR_ICON_ATLAS);
+        this.pistolIcon = LoadSave.getSpriteAtlas(LoadSave.PISTOL_ICON_ATLAS);
     }
 
     private void updateAnimationTick() {
@@ -270,11 +277,11 @@ public class Player extends Entity {
     }
 
     private void renderBullets(Graphics2D graphics2D) {
-   
-            for (Bullet b : this.currentWeapon.getBullets()) {
-                b.render(graphics2D);
-            }
-        
+
+        for (Bullet b : this.currentWeapon.getBullets()) {
+            b.render(graphics2D);
+        }
+
     }
 
     public void reload() {
@@ -329,6 +336,9 @@ public class Player extends Entity {
         g.drawImage(armorIcon, armorIconX + statusHudX,
                 armorIconY + statusHudY,
                 armorIconWidth, armorIconHeight, null);
+        g.drawImage(pistolIcon, pistolIconX + statusHudX,
+                pistolIconY + statusHudY,
+                pistolIconWidth, pistolIconHeight, null);
         g.setFont(systemFont);
         float percentage = (currentHealth * 100f) / maxHealth;
         String formatted = String.format("%.1f%%", percentage);
@@ -340,6 +350,7 @@ public class Player extends Entity {
         g.drawString(formatted, healthTextX + statusHudX, healthTextY + statusHudY);
 
     }
+
     public Weapon getCurrentWeapon() {
         return currentWeapon;
     }

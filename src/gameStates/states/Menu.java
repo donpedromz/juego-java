@@ -27,7 +27,7 @@ public class Menu extends State {
         }
     }
 
-    public void tick() {
+    public void update() {
         for (Particle p : particles) {
             p.tick();
         }
