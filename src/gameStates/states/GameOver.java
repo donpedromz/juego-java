@@ -82,7 +82,6 @@ public class GameOver extends State {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_R) {
             resetAll();
-            //game.setGameState(GameState.PLAYING); // ajusta según tu enum
         }
     }
 
